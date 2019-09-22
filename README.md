@@ -47,3 +47,5 @@ Build image
 `docker build -t turing_app .` 
 
 
+## To install mysql
+brew install mysql
