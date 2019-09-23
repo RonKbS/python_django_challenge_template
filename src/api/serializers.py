@@ -1,9 +1,13 @@
+import re
+
 from django.contrib.auth.models import User
+from django.contrib.auth.hashers import make_password
 from rest_framework import serializers
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
 from api.models import Department, Category, Attribute, AttributeValue, Product, Customer, Shipping, Tax, ShoppingCart, \
     Orders, OrderDetail, ShippingRegion, Review
+from .errors import *
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -115,6 +119,14 @@ class CreateCustomerSerializer(serializers.ModelSerializer):
     class Meta:
         model = Customer
         fields = ('name', 'email', 'password')
+
+    def validate(self, data):
+        if not re.fullmatch(
+            r"(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)", data['email']
+        ):
+            raise serializers.ValidationError("The email is invalid")
+        data['password'] = make_password(data['password'])
+        return super().validate(data)
 
 
 class UpdateCustomerSerializer(serializers.ModelSerializer):

@@ -62,7 +62,7 @@ class Customer(models.Model):
     region = models.CharField(max_length=100, blank=True, null=True)
     postal_code = models.CharField(max_length=100, blank=True, null=True)
     country = models.CharField(max_length=100, blank=True, null=True)
-    shipping_region_id = models.IntegerField()
+    shipping_region_id = models.IntegerField(default=1)
     day_phone = models.CharField(max_length=100, blank=True, null=True)
     eve_phone = models.CharField(max_length=100, blank=True, null=True)
     mob_phone = models.CharField(max_length=100, blank=True, null=True)

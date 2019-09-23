@@ -57,7 +57,14 @@ def create_customer(request):
     Register a customer.
     """
     logger.debug("Creating a customer")
-    # TODO: place the code here
+    details = ['name', 'email', 'password']
+    user = {
+        x: request.data.get(f'{x}', '') for x in details
+    }
+    serializer = CreateCustomerSerializer(data=user)
+    serializer.is_valid(raise_exception=True)
+    serializer.save()
+    return Response(serializer.validated_data)
 
 
 class TokenObtainPairPatchedView(TokenObtainPairView):
